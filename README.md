@@ -7,6 +7,9 @@
 - serve `ui` and `api`
 `npx nx run-many --target=serve --projects=api,ui`
 
+- prisma generate is a bit different due to __nx__ workspaces
+`npx prisma generate --schema=shared/prisma-shared/prisma/schema.prisma`
+
 ## Setup
 - [x] add Vite/React
 - [] add tRPC/Express/zod
@@ -15,3 +18,4 @@
 
 ## apps folder explanation
 - `ui` - React setup with Vite
+

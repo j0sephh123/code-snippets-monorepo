@@ -14,6 +14,8 @@ const app = express();
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
+console.log(process.env.DATABASE_URL)
+
 app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
