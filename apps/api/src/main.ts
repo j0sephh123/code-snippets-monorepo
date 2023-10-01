@@ -5,13 +5,14 @@
 
 import express from 'express';
 import * as path from 'path';
+import { trpcShared } from '@joseph/trpc-shared';
 
 const app = express();
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to api!' });
+  res.send({ message: 'Welcome to api!', fromTrpcShared: trpcShared() });
 });
 
 const port = process.env.PORT || 3000;
