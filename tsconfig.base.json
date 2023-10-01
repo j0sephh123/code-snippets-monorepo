@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@joseph/trpc-shared": ["libs/src/index.ts"]
+      "@joseph/trpc-shared": ["shared/trpc-shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
