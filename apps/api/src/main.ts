@@ -1,14 +1,7 @@
-import { inferAsyncReturnType } from '@trpc/server';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import express from 'express';
 import * as path from 'path';
 import { appRouter, trpcShared } from '@joseph/trpc-shared';
-
-const createContext = ({
-  req,
-  res,
-}: trpcExpress.CreateExpressContextOptions) => ({});
-type Context = inferAsyncReturnType<typeof createContext>;
 
 const app = express();
 
@@ -18,11 +11,11 @@ app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
     router: appRouter,
-    createContext,
+    createContext: () => ({}),
   })
 );
 
-app.get('/api', (req, res) => {
+app.get('/api', (_req, res) => {
   res.send({ message: 'Welcome to api!', fromTrpcShared: trpcShared() });
 });
 

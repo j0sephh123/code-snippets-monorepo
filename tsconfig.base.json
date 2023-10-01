@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@joseph/prisma-shared": ["shared/prisma-shared/src/index.ts"],
       "@joseph/trpc-shared": ["shared/trpc-shared/src/index.ts"]
     }
   },

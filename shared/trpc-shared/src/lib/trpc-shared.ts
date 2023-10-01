@@ -1,6 +1,7 @@
 import { initTRPC } from '@trpc/server';
 import superjson from 'superjson';
 import { z } from 'zod';
+import { prismaGetAllPosts } from '@joseph/prisma-shared';
 
 export const trpc = initTRPC.create({
   transformer: superjson,
@@ -13,6 +14,11 @@ export const appRouter = trpc.router({
   }),
   demo: trpc.procedure.query(() => {
     return { from: 'demo route' };
+  }),
+  fromPrisma: trpc.procedure.query(async () => {
+    const posts = await prismaGetAllPosts();
+
+    return posts;
   }),
 });
 
