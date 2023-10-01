@@ -4,6 +4,9 @@
 - serve `ui`
 `npx nx run ui:serve`
 
+- serve `ui` and `api`
+`npx nx run-many --target=serve --projects=api,ui`
+
 ## Setup
 - [x] add Vite/React
 - [] add tRPC/Express/zod
