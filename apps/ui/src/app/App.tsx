@@ -1,19 +1,17 @@
-import { useEffect } from 'react';
-import './App.css';
+import { trpc } from '../utils/tprc';
 
-export function App() {
-  useEffect(() => {
-    fetch('/api').then(r=>r.json()).then(console.log)
-  }, []);
+export default function App() {
+  const demo = trpc.demo.useQuery();
+  const getUser = trpc.getUser.useQuery('custom input');
+
+  console.log({
+    'demo.data': demo.data,
+    'getUser.data': getUser.data,
+  });
 
   return (
     <div>
-      <h1>
-        <span> Hello there, </span>
-        Welcome ui 👋
-      </h1>
+      <h1>App</h1>
     </div>
   );
 }
-
-export default App;
