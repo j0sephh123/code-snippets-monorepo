@@ -1,5 +1,5 @@
 import { trpc } from '../utils/tprc';
-import ColorThemeSwitch from './components/ColorThemeSwitch/ColorThemeSwitch';
+import Layout from './components/Layout/Layout';
 
 export default function App() {
   const demo = trpc.demo.useQuery();
@@ -13,9 +13,8 @@ export default function App() {
   });
 
   return (
-    <div>
-      <ColorThemeSwitch />
+    <Layout>
       <h1>App</h1>
-    </div>
+    </Layout>
   );
 }
