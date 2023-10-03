@@ -16,7 +16,7 @@ export default function Layout({ children }: Props) {
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md">
+        <Group h="100%" px="md" justify="space-between">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
           <IconHome size={30} />
           <ColorThemeSwitch />
