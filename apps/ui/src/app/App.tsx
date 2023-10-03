@@ -1,5 +1,6 @@
 import { trpc } from '../utils/tprc';
 import Layout from './components/Layout/Layout';
+import { toggleDialog } from './store/dialog/dialogState';
 
 export default function App() {
   const demo = trpc.demo.useQuery();
@@ -14,6 +15,16 @@ export default function App() {
 
   return (
     <Layout>
+      <button onClick={() => toggleDialog('create', { title: 'title' })}>
+        Open Create Dialog
+      </button>
+      <button
+        onClick={() =>
+          toggleDialog('confirm', { confirmMessage: 'confirmMessage' })
+        }
+      >
+        Open Confirm Delete Dialog
+      </button>
       <h1>App</h1>
     </Layout>
   );
