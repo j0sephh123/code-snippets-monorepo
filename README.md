@@ -11,6 +11,15 @@
 - prisma generate is a bit different due to **nx** workspaces
   `npx prisma generate --schema=shared/prisma-shared/prisma/schema.prisma`
 
+- push to db
+  `npx prisma db push --schema=./shared/prisma-shared/prisma/schema.prisma`
+
+- generate types from schema
+  `npx prisma generate --schema=./shared/prisma-shared/prisma/schema.prisma`
+
+- prisma studio  
+  `npx prisma studio --schema=./shared/prisma-shared/prisma/schema.prisma`
+
 ## apps folder explanation
 
 - `ui` - React setup with Vite

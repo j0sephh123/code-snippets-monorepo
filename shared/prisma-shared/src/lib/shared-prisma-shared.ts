@@ -22,3 +22,20 @@ export async function prismaGetAllPosts() {
     await prisma.$disconnect();
   }
 }
+
+export async function prismaCreatePost(title: string) {
+  try {
+    const createdPost = await prisma.post.create({
+      data: {
+        title,
+        authorId: 1
+      },
+    });
+
+    return createdPost;
+  } catch (e) {
+    console.log(e);
+  } finally {
+    await prisma.$disconnect();
+  }
+}

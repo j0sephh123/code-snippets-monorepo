@@ -1,4 +1,5 @@
 import { trpc } from '../utils/tprc';
+import BasicFormPoc from './components/BasicFormPoc/BasicFormPoc';
 import Layout from './components/Layout/Layout';
 import { toggleDialog } from './store/dialog/dialogState';
 
@@ -25,6 +26,7 @@ export default function App() {
       >
         Open Confirm Delete Dialog
       </button>
+      <BasicFormPoc />
       <h1>App</h1>
     </Layout>
   );

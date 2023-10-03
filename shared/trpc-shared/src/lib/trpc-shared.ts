@@ -1,7 +1,7 @@
 import { initTRPC } from '@trpc/server';
 import superjson from 'superjson';
 import { z } from 'zod';
-import { prismaGetAllPosts } from '@joseph/prisma-shared';
+import { prismaCreatePost, prismaGetAllPosts } from '@joseph/prisma-shared';
 
 export const trpc = initTRPC.create({
   transformer: superjson,
@@ -20,6 +20,13 @@ export const appRouter = trpc.router({
 
     return posts;
   }),
+  createPost: trpc.procedure
+    .input(
+      z.object({
+        title: z.string().min(1).max(255),
+      })
+    )
+    .mutation(({ input: { title } }) => prismaCreatePost(title)),
 });
 
 export function trpcShared(): string {
