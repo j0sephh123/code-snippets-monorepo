@@ -21,6 +21,40 @@ model Post {
   @@index([authorId])
 }
 
+model Snippet {
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now())
+  code         String         @db.Text
+  language     String
+  description  String?
+  author       User           @relation(fields: [authorId], references: [id])
+  authorId     Int
+  TagOnSnippet TagOnSnippet[]
+
+  @@index([authorId])
+}
+
+model Tag {
+  id       Int            @id @default(autoincrement())
+  name     String         @unique
+  snippets TagOnSnippet[]
+
+  @@index([id])
+}
+
+model TagOnSnippet {
+  snippetId Int
+  tagId     Int
+
+  snippet Snippet @relation(fields: [snippetId], references: [id])
+  tag     Tag     @relation(fields: [tagId], references: [id])
+
+  @@id([snippetId, tagId])
+  @@index([snippetId])
+  @@index([tagId])
+}
+
 model Profile {
   id     Int     @id @default(autoincrement())
   bio    String?
@@ -31,9 +65,12 @@ model Profile {
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  name     String?
+  posts    Post[]
+  snippets Snippet[]
+  profile  Profile?
+
+  @@index([id])
 }
