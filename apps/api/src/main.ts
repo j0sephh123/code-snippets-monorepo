@@ -8,6 +8,8 @@ const app = express();
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
+// TODO prisma needs to be disconnected
+// not sure where to do it - here or where router is defined
 app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
