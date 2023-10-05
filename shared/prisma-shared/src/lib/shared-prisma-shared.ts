@@ -2,20 +2,11 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-async function getAllPosts() {
-  const posts = await prisma.post.findMany({
-    include: {
-      author: true, // include the author information for each post
-    },
-  });
-  return posts;
-}
-
-export async function prismaGetAllPosts() {
+export async function prismaGetAllSnippets() {
   try {
-    const posts = await getAllPosts();
+    const snippets = await prisma.snippet.findMany();
 
-    return posts;
+    return snippets;
   } catch (e) {
     console.log(e);
   } finally {
@@ -28,7 +19,7 @@ export async function prismaCreatePost(title: string) {
     const createdPost = await prisma.post.create({
       data: {
         title,
-        authorId: 1
+        authorId: 1,
       },
     });
 
