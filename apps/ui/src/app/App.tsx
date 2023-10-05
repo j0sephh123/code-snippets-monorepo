@@ -1,9 +1,15 @@
+import { Table } from '@mantine/core';
 import { trpc } from '../utils/tprc';
 import BasicFormPoc from './components/BasicFormPoc/BasicFormPoc';
 import Layout from './components/Layout/Layout';
-import TableBody from './components/table/TableBody';
 import TableWrapper from './components/table/TableWrapper';
 import { toggleDialog } from './store/dialog/dialogState';
+
+const tableDummyData = [
+  { id: 1, cells: [<div>11</div>, <div>12</div>, <div>13</div>] },
+  { id: 2, cells: [<div>21</div>, <div>22</div>, <div>23</div>] },
+];
+const tableDummyColumns = ['mass', 'symbol', 'name'];
 
 export default function App() {
   const demo = trpc.demo.useQuery();
@@ -15,14 +21,6 @@ export default function App() {
     'getUser.data': getUser.data,
     'fromPrisma.data': fromPrisma.data,
   });
-
-  const elements = [
-    { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
-    { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
-    { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
-    { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
-    { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-  ];
 
   return (
     <Layout>
@@ -38,8 +36,14 @@ export default function App() {
       </button>
       <BasicFormPoc />
       <h1>App</h1>
-      <TableWrapper>
-        <TableBody data={elements} />
+      <TableWrapper columns={tableDummyColumns}>
+        {tableDummyData.map((row) => (
+          <Table.Tr key={row.id}>
+            {row.cells.map((cell, cellIndex) => (
+              <Table.Td key={`${row.id}-${cellIndex}`}>{cell}</Table.Td>
+            ))}
+          </Table.Tr>
+        ))}
       </TableWrapper>
     </Layout>
   );
