@@ -9,12 +9,6 @@ export const trpc = initTRPC.create({
 });
 
 export const appRouter = trpc.router({
-  getUser: trpc.procedure.input(z.string()).query((opts) => {
-    return { id: opts.input, name: 'Bilbo' };
-  }),
-  demo: trpc.procedure.query(() => {
-    return { from: 'demo route' };
-  }),
   fromPrisma: trpc.procedure.query(async () => {
     const posts = await prismaGetAllPosts();
 
