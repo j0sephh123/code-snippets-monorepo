@@ -2,6 +2,7 @@ import * as trpcExpress from '@trpc/server/adapters/express';
 import express from 'express';
 import * as path from 'path';
 import { appRouter, trpcShared } from '@joseph/trpc-shared';
+import { PrismaClient } from '@prisma/client';
 
 const app = express();
 
@@ -11,7 +12,9 @@ app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
     router: appRouter,
-    createContext: () => ({}),
+    createContext: () => ({
+      prisma: new PrismaClient(),
+    }),
   })
 );
 
