@@ -2,16 +2,21 @@ import * as trpcExpress from '@trpc/server/adapters/express';
 import express from 'express';
 import * as path from 'path';
 import { appRouter, trpcShared } from '@joseph/trpc-shared';
+import { PrismaClient } from '@prisma/client';
 
 const app = express();
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
+// TODO prisma needs to be disconnected
+// not sure where to do it - here or where router is defined
 app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
     router: appRouter,
-    createContext: () => ({}),
+    createContext: () => ({
+      prisma: new PrismaClient(),
+    }),
   })
 );
 

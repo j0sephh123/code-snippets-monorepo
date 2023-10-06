@@ -1,12 +1,13 @@
-import BasicFormPoc from './components/BasicFormPoc/BasicFormPoc';
 import Layout from './components/Layout/Layout';
-import { toggleDialog } from './store/dialog/dialogState';
 import SnippetsTable from './components/table/SnippetsTable/SnippetsTable';
+import { toggleDialog } from './store/dialog/dialogState';
 
 export default function App() {
   return (
     <Layout>
-      <button onClick={() => toggleDialog('create', { title: 'title' })}>
+      <button
+        onClick={() => toggleDialog('create', { title: 'Create a snippet' })}
+      >
         Open Create Dialog
       </button>
       <button
@@ -16,7 +17,6 @@ export default function App() {
       >
         Open Confirm Delete Dialog
       </button>
-      <BasicFormPoc />
       <h1>App</h1>
       <SnippetsTable />
     </Layout>

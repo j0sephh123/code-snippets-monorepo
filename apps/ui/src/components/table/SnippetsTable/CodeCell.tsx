@@ -1,4 +1,4 @@
-export type CodeCellProps = {
+type CodeCellProps = {
   codeBlock: string;
 };
 

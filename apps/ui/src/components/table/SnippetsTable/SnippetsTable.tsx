@@ -1,16 +1,16 @@
 import { ReactNode } from 'react';
 import { Table } from '@mantine/core';
-import { trpc } from '../../../../utils/tprc';
+import { trpc } from '../../../utils/tprc';
 import TableWrapper from '../TableWrapper';
 import { columns } from '../columns';
-import CodeCell, { CodeCellProps } from './CodeCell';
-import DesciptionCell, { DescriptionCellProps } from './DescriptionCell';
-import LanguageCell, { LanguageCellProps } from './LanguageCell';
+import CodeCell from './CodeCell';
+import DesciptionCell from './DescriptionCell';
+import LanguageCell from './LanguageCell';
 
 type ComponentProps = {
-  code: CodeCellProps;
-  description: DescriptionCellProps;
-  language: LanguageCellProps;
+  code: Parameters<typeof CodeCell>[0];
+  description: Parameters<typeof DesciptionCell>[0];
+  language: Parameters<typeof LanguageCell>[0];
 };
 
 const getCellComponent = (
@@ -19,11 +19,11 @@ const getCellComponent = (
 ): ReactNode => {
   switch (column) {
     case 'code':
-      return <CodeCell {...(props as CodeCellProps)} />;
+      return <CodeCell {...(props as ComponentProps['code'])} />;
     case 'description':
-      return <DesciptionCell {...(props as DescriptionCellProps)} />;
+      return <DesciptionCell {...(props as ComponentProps['description'])} />;
     case 'language':
-      return <LanguageCell {...(props as LanguageCellProps)} />;
+      return <LanguageCell {...(props as ComponentProps['language'])} />;
   }
 };
 
