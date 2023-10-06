@@ -1,12 +1,12 @@
-import { StrictMode, lazy } from 'react';
+import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import App from './app/App';
-import TRPCProvider from './app/components/TRPCProvider';
+import App from './App';
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 import { createTheme } from '@mantine/core';
-import GenericModal from './app/components/GenericModal/GenericModal';
+import GenericModal from './components/GenericModal/GenericModal';
+import TRPCProvider from './components/TRPCProvider';
 
 const theme = createTheme({});
 
