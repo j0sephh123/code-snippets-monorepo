@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import { Button, TextInput } from '@mantine/core';
 import { trpc } from '../../utils/tprc';
+import { toggleDialog } from '../../store/dialog/dialogState';
 
-export default function BasicFormPoc() {
+type Props = {
+  title: string;
+};
+
+export default function CreateSnippetForm({ title }: Props) {
   const trpcContext = trpc.useContext();
   const [code, setCode] = useState('');
   const [language, setLanguage] = useState('');
@@ -14,11 +19,13 @@ export default function BasicFormPoc() {
       setCode('');
       setLanguage('');
       setDescription('');
+      toggleDialog('closed');
     },
   });
 
   return (
-    <div>
+    <>
+      <h1>{title}</h1>
       <TextInput
         placeholder="Code"
         value={code}
@@ -45,6 +52,6 @@ export default function BasicFormPoc() {
       >
         Create
       </Button>
-    </div>
+    </>
   );
 }
