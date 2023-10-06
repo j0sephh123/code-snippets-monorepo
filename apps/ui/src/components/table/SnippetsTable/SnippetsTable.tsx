@@ -6,11 +6,13 @@ import { columns } from '../columns';
 import CodeCell from './CodeCell';
 import DesciptionCell from './DescriptionCell';
 import LanguageCell from './LanguageCell';
+import ActionsCell from './ActionsCell';
 
 type ComponentProps = {
   code: Parameters<typeof CodeCell>[0];
   description: Parameters<typeof DesciptionCell>[0];
   language: Parameters<typeof LanguageCell>[0];
+  actions: Parameters<typeof ActionsCell>[0];
 };
 
 const getCellComponent = (
@@ -18,6 +20,8 @@ const getCellComponent = (
   props: ComponentProps[keyof ComponentProps]
 ): ReactNode => {
   switch (column) {
+    case 'actions':
+      return <ActionsCell {...(props as ComponentProps['actions'])} />;
     case 'code':
       return <CodeCell {...(props as ComponentProps['code'])} />;
     case 'description':
@@ -27,6 +31,7 @@ const getCellComponent = (
   }
 };
 
+// Experimenting with Typescript
 export default function SnippetsTable() {
   const { data: snippets } = trpc.getSnippets.useQuery();
 
@@ -43,6 +48,7 @@ export default function SnippetsTable() {
               codeBlock: row.code,
               extension: row.language,
               children: <div>{row.description}</div>,
+              id: row.id,
             };
 
             return (

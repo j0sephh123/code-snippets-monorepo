@@ -1,7 +1,7 @@
 import { inferAsyncReturnType, initTRPC } from '@trpc/server';
 import superjson from 'superjson';
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Language } from '@prisma/client';
 
 export const createContext = (): { prisma: PrismaClient } => ({
   prisma: new PrismaClient(),
@@ -14,16 +14,22 @@ export const trpc = initTRPC.context<Context>().create({
 });
 
 export const appRouter = trpc.router({
-  getSnippets: trpc.procedure.query(({ ctx }) => ctx.prisma.snippet.findMany()),
-  createPost: trpc.procedure
+  getSnippets: trpc.procedure.query(async ({ ctx }) => {
+    const snippets = await ctx.prisma.snippet.findMany();
+
+    console.log(snippets);
+
+    return snippets;
+  }),
+  createSnippet: trpc.procedure
     .input(
       z.object({
         code: z.string().min(1).max(255),
-        language: z.string().min(1).max(255),
+        language: z.nativeEnum(Language),
         description: z.string().min(1).max(255),
       })
     )
-    .mutation(async ({ input: { code,language,description }, ctx }) => {
+    .mutation(async ({ input: { code, language, description }, ctx }) => {
       const createdPost = await ctx.prisma.snippet.create({
         data: {
           code,

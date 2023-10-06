@@ -21,12 +21,17 @@ model Post {
   @@index([authorId])
 }
 
+enum Language {
+  JavaScript
+  TypeScript
+}
+
 model Snippet {
   id           Int            @id @default(autoincrement())
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @default(now())
   code         String         @db.Text
-  language     String
+  language     Language       @default(JavaScript)
   description  String?
   author       User           @relation(fields: [authorId], references: [id])
   authorId     Int
