@@ -1,24 +1,27 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 import { createTheme } from '@mantine/core';
 import GenericModal from './components/GenericModal/GenericModal';
 import TRPCProvider from './components/TRPCProvider';
-
-const theme = createTheme({});
+import { Route } from 'wouter';
+import SnippetPage from './pages/SnippetPage';
+import Layout from './components/Layout/Layout';
+import SnippetsTable from './components/table/SnippetsTable/SnippetsTable';
+import CodeSnippetDialogTrigger from './components/CodeSnippetDialogTrigger/CodeSnippetDialogTrigger';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
-    <BrowserRouter>
-      <TRPCProvider>
-        <MantineProvider defaultColorScheme="dark" theme={theme}>
-          <App />
-          <GenericModal />
-        </MantineProvider>
-      </TRPCProvider>
-    </BrowserRouter>
+    <TRPCProvider>
+      <MantineProvider defaultColorScheme="dark" theme={createTheme({})}>
+        <Layout>
+          <Route path="/" component={SnippetsTable} />
+          <Route path="/snippets/:id" component={SnippetPage} />
+        </Layout>
+        <GenericModal />
+        <CodeSnippetDialogTrigger />
+      </MantineProvider>
+    </TRPCProvider>
   </StrictMode>
 );
