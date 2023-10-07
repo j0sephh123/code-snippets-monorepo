@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Language } from '@prisma/client';
-import { Button, TextInput, Select, Textarea } from '@mantine/core';
+import { Button, Select, Textarea } from '@mantine/core';
 import { trpc } from '../../utils/tprc';
 import { toggleDialog } from '../../store/dialog/dialogState';
 
@@ -34,10 +34,13 @@ export default function CreateSnippetForm() {
 
   return (
     <>
-      <TextInput
+      <Textarea
+        rows={2}
+        maxLength={190}
         withAsterisk
         label="Description"
         placeholder="Description"
+        description="Between 1 and 190 characters"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
@@ -50,6 +53,9 @@ export default function CreateSnippetForm() {
         data={Object.keys(Language)}
       />
       <Textarea
+        description="Between 1 and 4000 characters"
+        maxLength={4000}
+        rows={4}
         withAsterisk
         label="Code"
         placeholder="Code"
