@@ -8,7 +8,12 @@ export default function GenericModal() {
   const { type } = useSnapshot(dialogState);
 
   return (
-    <Modal opened={type !== 'closed'} onClose={() => toggleDialog('closed')}>
+    <Modal
+      centered
+      withCloseButton={false}
+      opened={type !== 'closed'}
+      onClose={() => toggleDialog('closed')}
+    >
       {type === 'create' && <CreateModal />}
       {type === 'confirm' && <ConfirmModal />}
     </Modal>
