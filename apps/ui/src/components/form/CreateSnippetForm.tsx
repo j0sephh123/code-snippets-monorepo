@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Language } from '@prisma/client';
-import { Button, Select, Textarea } from '@mantine/core';
+import { Button, Select, Textarea, Tooltip } from '@mantine/core';
 import { trpc } from '../../utils/tprc';
 import { toggleDialog } from '../../store/dialog/dialogState';
 
@@ -32,6 +32,8 @@ export default function CreateSnippetForm() {
     });
   };
 
+  const isValid = code.length > 0 && description.length > 0;
+
   return (
     <>
       <Textarea
@@ -62,14 +64,27 @@ export default function CreateSnippetForm() {
         value={code}
         onChange={(e) => setCode(e.target.value)}
       />
-      <Button
-        disabled={code.length === 0 || description.length === 0}
-        variant="gradient"
-        fullWidth
-        onClick={handleCreateSnippet}
-      >
-        Create
-      </Button>
+      {isValid ? (
+        <Button
+          disabled={code.length === 0 || description.length === 0}
+          variant="gradient"
+          fullWidth
+          onClick={handleCreateSnippet}
+        >
+          Create
+        </Button>
+      ) : (
+        <Tooltip label='To be able to submit, fill all required fields'>
+          <Button
+            disabled={code.length === 0 || description.length === 0}
+            variant="gradient"
+            fullWidth
+            onClick={handleCreateSnippet}
+          >
+            Create
+          </Button>
+        </Tooltip>
+      )}
     </>
   );
 }

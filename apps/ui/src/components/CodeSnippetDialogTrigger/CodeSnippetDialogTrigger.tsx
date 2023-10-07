@@ -1,21 +1,22 @@
-import { ActionIcon } from '@mantine/core';
+import { ActionIcon, Tooltip } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { toggleDialog } from '../../store/dialog/dialogState';
+import classes from './CodeSnippetDialogTrigger.module.css';
 
 export default function CodeSnippetDialogTrigger() {
   return (
-    <ActionIcon
-      onClick={() => toggleDialog('create', { title: 'Create a Code Snippet' })}
-      style={{
-        position: 'fixed',
-        right: '20px',
-        bottom: '20px',
-      }}
-      radius="xl"
-      size="xl"
-      variant="filled"
-    >
-      <IconPlus style={{ width: '70%', height: '70%' }} stroke={1.5} />
-    </ActionIcon>
+    <Tooltip label="Create a Code Snippet">
+      <ActionIcon
+        onClick={() =>
+          toggleDialog('create', { title: 'Create a Code Snippet' })
+        }
+        className={classes.actionIcon}
+        radius="xl"
+        size="xl"
+        variant="filled"
+      >
+        <IconPlus style={{ width: '70%', height: '70%' }} stroke={1.5} />
+      </ActionIcon>
+    </Tooltip>
   );
 }
