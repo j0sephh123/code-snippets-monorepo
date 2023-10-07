@@ -27,6 +27,17 @@ class DataSource {
       },
     });
   }
+  getOneSnippet(id: number) {
+    try {
+      return PrismaInstance.getInstance().snippet.findFirstOrThrow({
+        where: {
+          id,
+        },
+      });
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 export default DataSource;

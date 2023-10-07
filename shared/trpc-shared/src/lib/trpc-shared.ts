@@ -29,6 +29,12 @@ export const appRouter = trpc.router({
         language,
       })
     ),
+  getOneSnippet: trpc.procedure
+    .input(z.number())
+    .query(
+      async ({ ctx, input: id }): Promise<any> =>
+        ctx.dataSource.getOneSnippet(id)
+    ),
 });
 
 export function trpcShared(): string {

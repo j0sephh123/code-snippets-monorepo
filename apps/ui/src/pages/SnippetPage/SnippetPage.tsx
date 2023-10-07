@@ -3,6 +3,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import classes from './SnippetPage.module.css';
 import Copy from '../../components/Copy/Copy';
+import { trpc } from '../../utils/tprc';
 
 const codeString = `import React from 'react';
 import { Code } from '@mantine/core';
@@ -16,7 +17,8 @@ type Props = {
 };
 
 export default function SnippetPage({ id }: Props) {
-  console.log({ id });
+  const { data } = trpc.getOneSnippet.useQuery(+id);
+  console.log(data);
 
   return (
     <Stack
