@@ -2,20 +2,19 @@ import * as trpcExpress from '@trpc/server/adapters/express';
 import express from 'express';
 import * as path from 'path';
 import { appRouter, trpcShared } from '@joseph/trpc-shared';
-import { PrismaClient } from '@prisma/client';
+import DataSource from 'shared/prisma-shared/src/lib/shared-prisma-shared';
 
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
-// TODO prisma needs to be disconnected
-// not sure where to do it - here or where router is defined
 app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
     router: appRouter,
     createContext: () => ({
-      prisma: new PrismaClient(),
+      dataSource: new DataSource(),
     }),
   })
 );
@@ -24,7 +23,6 @@ app.get('/api', (_req, res) => {
   res.send({ message: 'Welcome to api!', fromTrpcShared: trpcShared() });
 });
 
-const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
