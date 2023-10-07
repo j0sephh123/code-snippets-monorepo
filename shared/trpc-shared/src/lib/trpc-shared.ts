@@ -1,26 +1,19 @@
-import { inferAsyncReturnType, initTRPC } from '@trpc/server';
+import { initTRPC } from '@trpc/server';
 import superjson from 'superjson';
 import { z } from 'zod';
-import { PrismaClient, Language } from '@prisma/client';
+import { Language } from '@prisma/client';
+import DataSource from 'shared/prisma-shared/src/lib/shared-prisma-shared';
 
-export const createContext = (): { prisma: PrismaClient } => ({
-  prisma: new PrismaClient(),
-});
-type Context = inferAsyncReturnType<typeof createContext>;
-
-export const trpc = initTRPC.context<Context>().create({
+export const trpc = initTRPC.context<{ dataSource: DataSource }>().create({
+  // export const trpc = initTRPC.create({
   transformer: superjson,
   isServer: true,
 });
 
 export const appRouter = trpc.router({
-  getSnippets: trpc.procedure.query(async ({ ctx }) => {
-    const snippets = await ctx.prisma.snippet.findMany();
-
-    console.log(snippets);
-
-    return snippets;
-  }),
+  getSnippets: trpc.procedure.query(async ({ ctx }) =>
+    ctx.dataSource.getAllSnippets()
+  ),
   createSnippet: trpc.procedure
     .input(
       z.object({
@@ -29,18 +22,13 @@ export const appRouter = trpc.router({
         description: z.string().min(1).max(255),
       })
     )
-    .mutation(async ({ input: { code, language, description }, ctx }) => {
-      const createdPost = await ctx.prisma.snippet.create({
-        data: {
-          code,
-          language,
-          description,
-          authorId: 1,
-        },
-      });
-
-      return createdPost;
-    }),
+    .mutation(async ({ input: { code, language, description }, ctx }) =>
+      ctx.dataSource.createSnippet({
+        code,
+        description,
+        language,
+      })
+    ),
 });
 
 export function trpcShared(): string {
