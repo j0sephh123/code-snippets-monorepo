@@ -32,7 +32,7 @@ export const appRouter = trpc.router({
   getOneSnippet: trpc.procedure
     .input(z.number())
     .query(
-      async ({ ctx, input: id }): Promise<any> =>
+      async ({ ctx, input: id }) =>
         ctx.dataSource.getOneSnippet(id)
     ),
 });
