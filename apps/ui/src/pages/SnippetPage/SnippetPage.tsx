@@ -1,10 +1,9 @@
 import { Stack, Text, Breadcrumbs, Anchor } from '@mantine/core';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import classes from './SnippetPage.module.css';
 import Copy from '../../components/Copy/Copy';
 import { trpc } from '../../utils/tprc';
 import { Link } from 'wouter';
+import CodeBlock from '../../components/CodeBlock/CodeBlock';
 
 type Props = {
   id: string;
@@ -17,7 +16,7 @@ export default function SnippetPage({ id }: Props) {
     return;
   }
 
-  const { code, description } = data;
+  const { code, description, language } = data;
 
   // TODO extract as a hook or a wrapper to use when there are more pages
   const items = [
@@ -37,17 +36,7 @@ export default function SnippetPage({ id }: Props) {
           className={classes.copy}
           onClick={() => navigator.clipboard.writeText(code)}
         />
-
-        <SyntaxHighlighter
-          language="javascript"
-          style={atomDark}
-          showLineNumbers
-          customStyle={{
-            border: '1px solid gray',
-          }}
-        >
-          {code}
-        </SyntaxHighlighter>
+        <CodeBlock code={code} language={language} />
         <Text>{description}</Text>
       </Stack>
     </>
