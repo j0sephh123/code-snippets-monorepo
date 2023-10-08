@@ -31,10 +31,10 @@ export const appRouter = trpc.router({
     ),
   getOneSnippet: trpc.procedure
     .input(z.number())
-    .query(
-      async ({ ctx, input: id }) =>
-        ctx.dataSource.getOneSnippet(id)
-    ),
+    .query(async ({ ctx, input: id }) => ctx.dataSource.getOneSnippet(id)),
+  deleteSnippet: trpc.procedure
+    .input(z.number())
+    .mutation(async ({ ctx, input: id }) => ctx.dataSource.deleteSnippet(id)),
 });
 
 export function trpcShared(): string {

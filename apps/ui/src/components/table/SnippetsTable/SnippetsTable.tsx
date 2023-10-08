@@ -7,6 +7,7 @@ import CodeCell from './CodeCell';
 import DesciptionCell from './DescriptionCell';
 import LanguageCell from './LanguageCell';
 import ActionsCell from './ActionsCell';
+import { dialogState, toggleDialog } from '../../../store/dialog/dialogState';
 
 type ComponentProps = {
   code: Parameters<typeof CodeCell>[0];
@@ -33,7 +34,13 @@ const getCellComponent = (
 
 // Experimenting with Typescript
 export default function SnippetsTable() {
-  const { data: snippets } = trpc.getSnippets.useQuery();
+  const { data: snippets, refetch } = trpc.getSnippets.useQuery();
+  const { mutate: deleteSnippet } = trpc.deleteSnippet.useMutation({
+    onSuccess() {
+      toggleDialog('closed');
+      refetch();
+    },
+  });
 
   if (!snippets) {
     return null;
@@ -49,6 +56,13 @@ export default function SnippetsTable() {
               extension: row.language,
               children: <div>{row.description}</div>,
               id: row.id,
+              onRequestDelete: () => {
+                toggleDialog('confirm', {
+                  confirmMessage:
+                    'Are you sure you want to delete snippet ' + row.id,
+                  callback: () => deleteSnippet(+row.id),
+                });
+              },
             };
 
             return (
