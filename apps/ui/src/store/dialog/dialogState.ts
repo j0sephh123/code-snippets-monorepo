@@ -1,7 +1,10 @@
 import { proxy } from 'valtio';
 
 type CreateDialog = { type: 'create'; payload: { title: string } };
-type ConfirmDialog = { type: 'confirm'; payload: { confirmMessage: string } };
+type ConfirmDialog = {
+  type: 'confirm';
+  payload: { confirmMessage: string; callback: () => void };
+};
 
 export type DialogState = { type: 'closed' } | CreateDialog | ConfirmDialog;
 

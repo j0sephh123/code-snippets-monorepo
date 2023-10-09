@@ -1,6 +1,6 @@
 import useDialogState from '../../store/dialog/useDialogState';
 import CreateSnippetForm from '../form/CreateSnippetForm';
-import Wrapper from '../form/Wrapper';
+import ModalWrapper from './ModalWrapper';
 
 export default function CreateModal() {
   const {
@@ -8,8 +8,8 @@ export default function CreateModal() {
   } = useDialogState<'create'>();
 
   return (
-    <Wrapper title={title}>
+    <ModalWrapper title={title}>
       <CreateSnippetForm />
-    </Wrapper>
+    </ModalWrapper>
   );
 }

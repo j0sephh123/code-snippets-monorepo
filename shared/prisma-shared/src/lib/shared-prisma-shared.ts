@@ -38,6 +38,11 @@ class DataSource {
       return null;
     }
   }
+  deleteSnippet(id: number) {
+    return PrismaInstance.getInstance().snippet.delete({
+      where: { id },
+    });
+  }
 }
 
 export default DataSource;

@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react';
 
 type Props = { title: string } & PropsWithChildren;
 
-export default function Wrapper({ children, title }: Props) {
+export default function ModalWrapper({ children, title }: Props) {
   return (
     <Stack>
       <Title order={3}>{title}</Title>
