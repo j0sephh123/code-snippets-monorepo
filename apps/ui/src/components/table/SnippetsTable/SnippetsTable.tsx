@@ -7,7 +7,7 @@ import CodeCell from './CodeCell';
 import DesciptionCell from './DescriptionCell';
 import LanguageCell from './LanguageCell';
 import ActionsCell from './ActionsCell';
-import { dialogState, toggleDialog } from '../../../store/dialog/dialogState';
+import { toggleDialog } from '../../../store/dialog/dialogState';
 
 type ComponentProps = {
   code: Parameters<typeof CodeCell>[0];
