@@ -7,7 +7,7 @@ afterEach(() => {
   cleanup();
 });
 
-console.log('setupTests');
+// console.log('setupTests');
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
