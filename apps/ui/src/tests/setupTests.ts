@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
@@ -7,6 +6,8 @@ import '@testing-library/jest-dom/vitest';
 afterEach(() => {
   cleanup();
 });
+
+console.log('setupTests');
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
