@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import ColorThemeSwitch from './ColorThemeSwitch';
-import { MantineProvider, createTheme } from '@mantine/core';
+import { renderWithProvider } from '../../tests/renderUtils';
 
 const setColorSchemeSpy = vi.hoisted(vi.fn);
 
@@ -17,11 +17,9 @@ vi.mock('@mantine/core', async () => {
 describe('components > ColorThemeSwitch', () => {
   it('renders', async () => {
     const user = userEvent.setup();
-    const { asFragment } = render(
-      <MantineProvider defaultColorScheme="dark" theme={createTheme({})}>
-        <ColorThemeSwitch />
-      </MantineProvider>
-    );
+    const { asFragment } = renderWithProvider(<ColorThemeSwitch />, {
+      provider: 'mantine',
+    });
     const btn = screen.getByRole('button');
 
     await user.click(btn);
