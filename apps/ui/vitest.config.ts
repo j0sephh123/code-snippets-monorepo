@@ -8,6 +8,7 @@ export default defineConfig({
       all: true,
       // enabled: true,
     },
+    css: true,
     environment: 'jsdom',
     globals: true,
     setupFiles: ['apps/ui/src/tests/setupTests.ts'],

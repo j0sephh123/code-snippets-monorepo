@@ -1,18 +1,15 @@
-import { afterEach, vi, expect } from 'vitest';
+import { afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 
-import * as matchers from '@testing-library/jest-dom/matchers';
+console.log('tests');
 
-expect.extend(matchers);
-
-// runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
   cleanup();
 });
 
-// console.log('setupTests');
-
+// TODO investigate if this is the correct way
+// stubGlobal - the vitest's suggested way - still can't make it work
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
@@ -26,5 +23,3 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: vi.fn(),
   })),
 });
-
-export {};
