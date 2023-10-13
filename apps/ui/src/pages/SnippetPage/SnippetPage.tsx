@@ -1,6 +1,6 @@
-import { Text, Breadcrumbs, Anchor } from '@mantine/core';
-import { trpc } from '../../utils/tprc';
 import { Link } from 'wouter';
+import { Breadcrumbs, Anchor } from '@mantine/core';
+import { trpc } from '../../utils/tprc';
 import CodeBlock from '../../components/CodeBlock/CodeBlock';
 
 type Props = {
@@ -29,8 +29,7 @@ export default function SnippetPage({ id }: Props) {
   return (
     <>
       <Breadcrumbs>{items}</Breadcrumbs>
-      <CodeBlock code={code} language={language} />
-      <Text>{description}</Text>
+      <CodeBlock code={code} language={language} description={description} />
     </>
   );
 }

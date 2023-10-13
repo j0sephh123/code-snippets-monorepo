@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Group, Stack, Text, Tooltip } from '@mantine/core';
 import { Prism } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import mapPrismaEnumToLibraryLang from '../../utils/dataTransforms/mapPrismaEnumToLibraryLang';
@@ -31,8 +31,7 @@ export default function CodeBlock({ language, code, description }: Props) {
   }, [isClicked]);
 
   return (
-    <>
-      {description && <Text>{description}</Text>}
+    <Stack gap={0}>
       <Group justify="space-between" className={classes.controls}>
         <Text c="dimmed">{language}</Text>
         <Tooltip label={isClicked ? 'Copied' : 'Copy'}>
@@ -61,6 +60,7 @@ export default function CodeBlock({ language, code, description }: Props) {
       >
         {code}
       </Prism>
-    </>
+      {description && <Text>{description}</Text>}
+    </Stack>
   );
 }
