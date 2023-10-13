@@ -2,17 +2,15 @@ import { ActionIcon, Group, Text, Tooltip } from '@mantine/core';
 import { Prism } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import mapPrismaEnumToLibraryLang from '../../utils/dataTransforms/mapPrismaEnumToLibraryLang';
-import { Language } from '@prisma/client';
 import classes from './CodeBlock.module.css';
 import { IconCopy } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
+import { GetAllSnippetsSingle } from '@joseph/types';
 
-type Props = {
-  language: Language;
-  code: string;
-};
+type Props = Pick<GetAllSnippetsSingle, 'description' | 'code' | 'language'>;
 
-export default function CodeBlock({ language, code }: Props) {
+// TODO wait before splitting into smaller chunks
+export default function CodeBlock({ language, code, description }: Props) {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleTooltipClick = () => {
@@ -34,7 +32,8 @@ export default function CodeBlock({ language, code }: Props) {
 
   return (
     <>
-      <Group justify='space-between' className={classes.controls}>
+      {description && <Text>{description}</Text>}
+      <Group justify="space-between" className={classes.controls}>
         <Text c="dimmed">{language}</Text>
         <Tooltip label={isClicked ? 'Copied' : 'Copy'}>
           <ActionIcon
