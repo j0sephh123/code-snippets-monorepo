@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Tooltip } from '@mantine/core';
+import { ActionIcon, Group, Text, Tooltip } from '@mantine/core';
 import { Prism } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import mapPrismaEnumToLibraryLang from '../../utils/dataTransforms/mapPrismaEnumToLibraryLang';
@@ -33,27 +33,35 @@ export default function CodeBlock({ language, code }: Props) {
   }, [isClicked]);
 
   return (
-    <Box className={classes.wrapper}>
-      <Tooltip label={isClicked ? 'Copied' : 'Copy'}>
-        <ActionIcon
-          onClick={handleTooltipClick}
-          size="lg"
-          variant={isClicked ? 'filled' : 'subtle'}
-          className={classes.copy}
-        >
-          <IconCopy />
-        </ActionIcon>
-      </Tooltip>
+    <>
+      <Group justify='space-between' className={classes.controls}>
+        <Text c="dimmed">{language}</Text>
+        <Tooltip label={isClicked ? 'Copied' : 'Copy'}>
+          <ActionIcon
+            onClick={handleTooltipClick}
+            size="lg"
+            variant={isClicked ? 'filled' : 'subtle'}
+            className={classes.copy}
+          >
+            <IconCopy />
+          </ActionIcon>
+        </Tooltip>
+      </Group>
       <Prism
         language={mapPrismaEnumToLibraryLang(language)}
         style={atomDark}
         showLineNumbers
         customStyle={{
-          border: '1px solid gray',
+          borderBottom: '1px solid gray',
+          borderRight: '1px solid gray',
+          borderLeft: '1px solid gray',
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
+          marginTop: 0,
         }}
       >
         {code}
       </Prism>
-    </Box>
+    </>
   );
 }

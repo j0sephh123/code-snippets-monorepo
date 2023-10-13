@@ -1,4 +1,4 @@
-import { Stack, Text, Breadcrumbs, Anchor } from '@mantine/core';
+import { Text, Breadcrumbs, Anchor } from '@mantine/core';
 import { trpc } from '../../utils/tprc';
 import { Link } from 'wouter';
 import CodeBlock from '../../components/CodeBlock/CodeBlock';
@@ -29,10 +29,8 @@ export default function SnippetPage({ id }: Props) {
   return (
     <>
       <Breadcrumbs>{items}</Breadcrumbs>
-      <Stack>
-        <CodeBlock code={code} language={language} />
-        <Text>{description}</Text>
-      </Stack>
+      <CodeBlock code={code} language={language} />
+      <Text>{description}</Text>
     </>
   );
 }

@@ -1,4 +1,4 @@
 export const columns = {
-  snippets: ['code', 'language', 'description', 'actions'],
+  snippets: ['code', 'actions'],
   tags: ['name'],
 } as const;
