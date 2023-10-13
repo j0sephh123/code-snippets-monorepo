@@ -3,14 +3,14 @@ import { Table } from '@mantine/core';
 import { trpc } from '../../../utils/tprc';
 import TableWrapper from '../TableWrapper';
 import { columns } from '../columns';
-import CodeCell from './CodeCell';
-import DesciptionCell from './DescriptionCell';
-import LanguageCell from './LanguageCell';
-import ActionsCell from './ActionsCell';
+import DesciptionCell from '../DescriptionCell';
+import LanguageCell from '../LanguageCell';
+import ActionsCell from '../ActionsCell';
 import { toggleDialog } from '../../../store/dialog/dialogState';
+import CodeBlock from '../../CodeBlock/CodeBlock';
 
 type ComponentProps = {
-  code: Parameters<typeof CodeCell>[0];
+  code: Parameters<typeof CodeBlock>[0];
   description: Parameters<typeof DesciptionCell>[0];
   language: Parameters<typeof LanguageCell>[0];
   actions: Parameters<typeof ActionsCell>[0];
@@ -24,7 +24,7 @@ const getCellComponent = (
     case 'actions':
       return <ActionsCell {...(props as ComponentProps['actions'])} />;
     case 'code':
-      return <CodeCell {...(props as ComponentProps['code'])} />;
+      return <CodeBlock {...(props as ComponentProps['code'])} />;
     case 'description':
       return <DesciptionCell {...(props as ComponentProps['description'])} />;
     case 'language':
@@ -52,7 +52,8 @@ export default function SnippetsTable() {
         <Table.Tr key={row.id}>
           {columns['snippets'].map((column) => {
             const props: ComponentProps[keyof ComponentProps] = {
-              codeBlock: row.code,
+              code: row.code,
+              language: row.language,
               extension: row.language,
               children: <div>{row.description}</div>,
               id: row.id,
