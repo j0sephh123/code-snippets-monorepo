@@ -6,9 +6,10 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       all: true,
+      // enabled: true,
     },
     environment: 'jsdom',
     globals: true,
-    setupFiles: 'apps/ui/setup.js',
+    setupFiles: ['apps/ui/src/tests/setupTests.ts'],
   },
 });

@@ -40,3 +40,6 @@ Thumbs.db
 
 .env.local
 .env
+
+# coverage
+apps/ui/coverage

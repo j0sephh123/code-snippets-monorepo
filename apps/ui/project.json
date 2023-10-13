@@ -57,8 +57,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/apps/ui"
+        "config": "apps/ui/vitest.config.ts"
       }
     },
     "lint": {
