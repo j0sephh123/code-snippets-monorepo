@@ -20,11 +20,14 @@
 - prisma studio  
   `npx prisma studio --schema=./shared/prisma-shared/prisma/schema.prisma`
 
-- test
+- test ui
   `npx nx run ui:test --watch`
 
 - coverage
   `npx nx run ui:test --watch --coverage`
+
+- test code-utils
+  `npx nx run code-utils:test --watch`
 
 ## apps folder explanation
 
