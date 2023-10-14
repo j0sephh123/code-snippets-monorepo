@@ -6,7 +6,6 @@ import mapPrismaEnumToLibraryLang from '../../utils/dataTransforms/mapPrismaEnum
 import classes from './CodeBlock.module.css';
 import { IconCopy } from '@tabler/icons-react';
 import { ReactNode, useEffect, useState } from 'react';
-import { trpc } from '../../utils/tprc';
 
 type Props = Pick<Snippet, 'code' | 'language'> & {
   description?: ReactNode;
