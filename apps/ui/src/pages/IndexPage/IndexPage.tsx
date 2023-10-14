@@ -4,6 +4,7 @@ import ActionsCell from '../../components/ActionsCell/ActionsCell';
 import { toggleDialog } from '../../store/dialog/dialogState';
 import { trpc } from '../../utils/tprc';
 import { Fragment } from 'react';
+import CodeDescription from '../../components/CodeBlock/CodeDescription/CodeDescription';
 
 export default function IndexPage() {
   const { data: snippets, refetch } = trpc.getSnippets.useQuery();
@@ -32,7 +33,7 @@ export default function IndexPage() {
           <CodeBlock
             code={code}
             language={language}
-            description={description}
+            description={<CodeDescription description={description} id={id} />}
           />
         </Grid.Col>
         <Grid.Col span={1}>

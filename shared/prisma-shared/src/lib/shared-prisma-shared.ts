@@ -43,4 +43,24 @@ export class DataSource {
       where: { id },
     });
   }
+  updateSnippetDescription({
+    id,
+    description,
+  }: {
+    id: number;
+    description: string;
+  }) {
+    try {
+      return PrismaInstance.getInstance().snippet.update({
+        where: {
+          id,
+        },
+        data: {
+          description,
+        },
+      });
+    } catch (e) {
+      return null;
+    }
+  }
 }

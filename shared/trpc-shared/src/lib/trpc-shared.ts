@@ -3,6 +3,12 @@ import superjson from 'superjson';
 import { z } from 'zod';
 import { DataSource } from '@joseph/prisma-shared';
 import { identifyCodeType } from '@joseph/code-utils';
+import {
+  FORM_DESCRIPTION_MAX_LENGTH,
+  FORM_CODE_MAX_LENGTH,
+  FORM_DESCRIPTION_MIN_LENGTH,
+  FORM_CODE_MIN_LENGTH,
+} from '@joseph/config';
 
 export const trpc = initTRPC.context<{ dataSource: DataSource }>().create({
   // export const trpc = initTRPC.create({
@@ -17,8 +23,11 @@ export const appRouter = trpc.router({
   createSnippet: trpc.procedure
     .input(
       z.object({
-        code: z.string().min(1).max(4000),
-        description: z.string().min(1).max(255),
+        code: z.string().min(FORM_CODE_MIN_LENGTH).max(FORM_CODE_MAX_LENGTH),
+        description: z
+          .string()
+          .min(FORM_DESCRIPTION_MIN_LENGTH)
+          .max(FORM_DESCRIPTION_MAX_LENGTH),
       })
     )
     .mutation(async ({ input: { code, description }, ctx }) => {
@@ -43,6 +52,22 @@ export const appRouter = trpc.router({
   deleteSnippet: trpc.procedure
     .input(z.number())
     .mutation(async ({ ctx, input: id }) => ctx.dataSource.deleteSnippet(id)),
+  updateSnippetDescription: trpc.procedure
+    .input(
+      z.object({
+        description: z
+          .string()
+          .min(FORM_DESCRIPTION_MIN_LENGTH)
+          .max(FORM_DESCRIPTION_MAX_LENGTH),
+        id: z.number(),
+      })
+    )
+    .mutation(({ input: { description, id }, ctx }) => {
+      return ctx.dataSource.updateSnippetDescription({
+        id,
+        description,
+      });
+    }),
 });
 
 // export type definition of API

@@ -14,7 +14,7 @@ export default function App() {
           <Route path="/" component={IndexPage} />
           <Route
             path="/snippets/:id"
-            component={(props) => <SnippetPage id={props.params.id} />}
+            component={(props) => <SnippetPage id={+props.params.id} />}
           />
           <Route>
             <NotFoundPage />

@@ -2,13 +2,14 @@ import { Link } from 'wouter';
 import { Breadcrumbs, Anchor } from '@mantine/core';
 import { trpc } from '../../utils/tprc';
 import CodeBlock from '../../components/CodeBlock/CodeBlock';
+import CodeDescription from '../../components/CodeBlock/CodeDescription/CodeDescription';
 
 type Props = {
-  id: string;
+  id: number;
 };
 
 export default function SnippetPage({ id }: Props) {
-  const { data } = trpc.getOneSnippet.useQuery(+id);
+  const { data } = trpc.getOneSnippet.useQuery(id);
 
   if (!data) {
     return;
@@ -29,7 +30,11 @@ export default function SnippetPage({ id }: Props) {
   return (
     <>
       <Breadcrumbs>{items}</Breadcrumbs>
-      <CodeBlock code={code} language={language} description={description} />
+      <CodeBlock
+        code={code}
+        language={language}
+        description={<CodeDescription description={description} id={id} />}
+      />
     </>
   );
 }

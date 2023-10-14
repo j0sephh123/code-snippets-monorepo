@@ -1,15 +1,19 @@
+import { Snippet } from '@prisma/client';
 import { ActionIcon, Group, Stack, Text, Tooltip } from '@mantine/core';
 import { Prism } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import mapPrismaEnumToLibraryLang from '../../utils/dataTransforms/mapPrismaEnumToLibraryLang';
 import classes from './CodeBlock.module.css';
 import { IconCopy } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
-import { GetAllSnippetsSingle } from '@joseph/types';
+import { ReactNode, useEffect, useState } from 'react';
+import { trpc } from '../../utils/tprc';
 
-type Props = Pick<GetAllSnippetsSingle, 'description' | 'code' | 'language'>;
+type Props = Pick<Snippet, 'code' | 'language'> & {
+  description?: ReactNode;
+};
 
 // TODO wait before splitting into smaller chunks
+// TODO description prop should be ReactNode instead of prop drilling
 export default function CodeBlock({ language, code, description }: Props) {
   const [isClicked, setIsClicked] = useState(false);
 
@@ -60,7 +64,7 @@ export default function CodeBlock({ language, code, description }: Props) {
       >
         {code}
       </Prism>
-      {description && <Text>{description}</Text>}
+      {description}
     </Stack>
   );
 }
