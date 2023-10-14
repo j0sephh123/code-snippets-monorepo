@@ -1,8 +1,8 @@
-import { initTRPC } from '@trpc/server';
+import { TRPCError, initTRPC } from '@trpc/server';
 import superjson from 'superjson';
 import { z } from 'zod';
-import { Language } from '@prisma/client';
-import DataSource from 'shared/prisma-shared/src/lib/shared-prisma-shared';
+import { DataSource } from '@joseph/prisma-shared';
+import { identifyCodeType } from '@joseph/code-utils';
 
 export const trpc = initTRPC.context<{ dataSource: DataSource }>().create({
   // export const trpc = initTRPC.create({
@@ -18,17 +18,26 @@ export const appRouter = trpc.router({
     .input(
       z.object({
         code: z.string().min(1).max(255),
-        language: z.nativeEnum(Language),
         description: z.string().min(1).max(255),
       })
     )
-    .mutation(async ({ input: { code, language, description }, ctx }) =>
-      ctx.dataSource.createSnippet({
+    .mutation(async ({ input: { code, description }, ctx }) => {
+      const codeType = identifyCodeType(code);
+      console.log({ code, description, codeType });
+
+      if (!codeType) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Failed to parse code snippet',
+        });
+      }
+
+      return ctx.dataSource.createSnippet({
         code,
         description,
-        language,
-      })
-    ),
+        language: codeType,
+      });
+    }),
   getOneSnippet: trpc.procedure
     .input(z.number())
     .query(async ({ ctx, input: id }) => ctx.dataSource.getOneSnippet(id)),

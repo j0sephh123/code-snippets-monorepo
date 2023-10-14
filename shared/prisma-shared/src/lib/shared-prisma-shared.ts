@@ -3,7 +3,7 @@ import PrismaInstance from './PrismaInstance';
 
 // TODO implement an interface
 // TODO load PrismaInstance in the constructor
-class DataSource {
+export class DataSource {
   getAllSnippets() {
     return PrismaInstance.getInstance().snippet.findMany();
   }
@@ -44,5 +44,3 @@ class DataSource {
     });
   }
 }
-
-export default DataSource;

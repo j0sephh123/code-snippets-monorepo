@@ -1,12 +1,14 @@
+import cors from 'cors';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import express from 'express';
 import * as path from 'path';
 import { appRouter, trpcShared } from '@joseph/trpc-shared';
-import DataSource from 'shared/prisma-shared/src/lib/shared-prisma-shared';
+import { DataSource } from '@joseph/prisma-shared';
 
 const port = process.env.PORT || 3000;
 const app = express();
 
+app.use(cors());
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 app.use(

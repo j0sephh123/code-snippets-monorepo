@@ -2,9 +2,6 @@
 
 ## Commands cheatsheet
 
-- serve `ui`
-  `npx nx run ui:serve`
-
 - serve all projects
   `npx nx run-many --target=serve`
 

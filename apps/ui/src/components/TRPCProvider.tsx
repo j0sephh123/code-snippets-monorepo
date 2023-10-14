@@ -10,7 +10,7 @@ export default function TRPCProvider({ children }: PropsWithChildren) {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: '/trpc',
+          url: 'http://localhost:3000/trpc',
         }),
       ],
       transformer: superjson,

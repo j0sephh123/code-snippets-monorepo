@@ -1,38 +1,37 @@
 import { useState } from 'react';
-import { Language } from '@prisma/client';
-import { Button, Select, Textarea, Tooltip } from '@mantine/core';
+import { Button, Textarea, Tooltip } from '@mantine/core';
 import { trpc } from '../../utils/tprc';
 import { toggleDialog } from '../../store/dialog/dialogState';
-
-const defaultLanguage: Language = 'JavaScript';
 
 // TODO experiment with refactoring
 // TODO extract placeholders, defaults, labels in a config file
 export default function CreateSnippetForm() {
   const trpcContext = trpc.useContext();
-  const [code, setCode] = useState('');
-  const [language, setLanguage] = useState<Language>(defaultLanguage);
+  const [codeInput, setCodeInput] = useState('');
+  const [isCodeInputInvalid, setIsCodeInputInvalid] = useState(false);
   const [description, setDescription] = useState('');
 
   const { mutate: createSnippet } = trpc.createSnippet.useMutation({
     onSuccess() {
       trpcContext.getSnippets.invalidate();
-      setCode('');
-      setLanguage(defaultLanguage);
+      setCodeInput('');
       setDescription('');
       toggleDialog('closed');
+    },
+    onError() {
+      // TODO a more complete approach is necessary here
+      setIsCodeInputInvalid(true);
     },
   });
 
   const handleCreateSnippet = () => {
     createSnippet({
-      code,
+      code: codeInput,
       description,
-      language,
     });
   };
 
-  const isValid = code.length > 0 && description.length > 0;
+  const isUserInputValid = codeInput.length > 0 && description.length > 0;
 
   return (
     <>
@@ -46,14 +45,6 @@ export default function CreateSnippetForm() {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <Select
-        withAsterisk
-        value={language}
-        onChange={(e) => setLanguage(e as keyof typeof Language)}
-        label="Language"
-        placeholder="Pick a language"
-        data={Object.keys(Language)}
-      />
       <Textarea
         description="Between 1 and 4000 characters"
         maxLength={4000}
@@ -61,12 +52,13 @@ export default function CreateSnippetForm() {
         withAsterisk
         label="Code"
         placeholder="Code"
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
+        value={codeInput}
+        onChange={(e) => setCodeInput(e.target.value)}
+        error={isCodeInputInvalid ? 'Invalid code snippet' : null}
       />
-      {isValid ? (
+      {isUserInputValid ? (
         <Button
-          disabled={code.length === 0 || description.length === 0}
+          disabled={codeInput.length === 0 || description.length === 0}
           variant="gradient"
           fullWidth
           onClick={handleCreateSnippet}
@@ -74,9 +66,9 @@ export default function CreateSnippetForm() {
           Create
         </Button>
       ) : (
-        <Tooltip label='To be able to submit, fill all required fields'>
+        <Tooltip label="To be able to submit, fill all required fields">
           <Button
-            disabled={code.length === 0 || description.length === 0}
+            disabled={codeInput.length === 0 || description.length === 0}
             variant="gradient"
             fullWidth
             onClick={handleCreateSnippet}
