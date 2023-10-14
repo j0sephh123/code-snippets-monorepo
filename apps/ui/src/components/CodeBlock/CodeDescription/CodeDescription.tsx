@@ -1,38 +1,50 @@
-import { useEffect, useRef, useState } from 'react';
-import { Textarea } from '@mantine/core';
+import { useEffect, useState } from 'react';
+import { Textarea, Text } from '@mantine/core';
 import { Snippet } from '@prisma/client';
 import { FORM_DESCRIPTION_MAX_LENGTH } from '@joseph/config';
-import { useDebouncedValue } from '@mantine/hooks';
+import { useDebouncedState } from '@mantine/hooks';
 import { trpc } from '../../../utils/tprc';
 
 type Props = Pick<Snippet, 'description' | 'id'>;
 
+// TODO rudimentary, but does intended job
 export default function CodeDescription({ description, id }: Props) {
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const { mutate: handleUpdateSnippetDescription } =
-    trpc.updateSnippetDescription.useMutation();
-  const descriptionRef = useRef(description);
-  const [input, setInput] = useState(description || '');
-  const [debounced] = useDebouncedValue(input, 500);
+    trpc.updateSnippetDescription.useMutation({
+      onSuccess() {
+        setIsSubmitted(true);
+      },
+    });
+  const [debounced, setDebounced] = useDebouncedState(description || '', 500);
 
   useEffect(() => {
-    if (input === descriptionRef.current) return;
-
+    if (description === debounced) return;
     handleUpdateSnippetDescription({
-      description: input,
+      description: debounced,
       id,
     });
-  }, [debounced, description, handleUpdateSnippetDescription, id, input]);
+  }, [debounced, description, handleUpdateSnippetDescription, id]);
 
   useEffect(() => {
-    descriptionRef.current = description;
-  }, [description]);
+    if (isSubmitted) {
+      const timeoutId = setTimeout(() => {
+        setIsSubmitted(false);
+      }, 500);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [isSubmitted]);
 
   return (
-    <Textarea
-      variant="unstyled"
-      maxLength={FORM_DESCRIPTION_MAX_LENGTH}
-      value={input}
-      onChange={(e) => setInput(e.target.value)}
-    />
+    <>
+      <Textarea
+        variant="unstyled"
+        maxLength={FORM_DESCRIPTION_MAX_LENGTH}
+        defaultValue={debounced}
+        onChange={(e) => setDebounced(e.target.value)}
+      />
+      {isSubmitted && <Text c="teal.4">Saved</Text>}
+    </>
   );
 }
