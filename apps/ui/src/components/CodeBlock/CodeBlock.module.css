@@ -5,4 +5,6 @@
   border-top: 1px solid gray;
   border-right: 1px solid gray;
   border-left: 1px solid gray;
+  border-top-left-radius: 0.3em;
+  border-top-right-radius: 0.3em;
 }

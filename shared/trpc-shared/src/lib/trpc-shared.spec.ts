@@ -1,7 +1,5 @@
-import { trpcShared } from './trpc-shared';
-
 describe('trpcShared', () => {
   it('should work', () => {
-    expect(trpcShared()).toEqual('trpc-shared');
+    expect(1 + 1).toBe(2);
   });
 });

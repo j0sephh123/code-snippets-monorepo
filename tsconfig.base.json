@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@joseph/code-utils": ["shared/code-utils/src/index.ts"],
+      "@joseph/config": ["shared/config/src/index.ts"],
       "@joseph/prisma-shared": ["shared/prisma-shared/src/index.ts"],
       "@joseph/trpc-shared": ["shared/trpc-shared/src/index.ts"],
       "@joseph/types": ["shared/types/src/index.ts"]

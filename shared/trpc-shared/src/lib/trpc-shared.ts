@@ -17,13 +17,12 @@ export const appRouter = trpc.router({
   createSnippet: trpc.procedure
     .input(
       z.object({
-        code: z.string().min(1).max(255),
+        code: z.string().min(1).max(4000),
         description: z.string().min(1).max(255),
       })
     )
     .mutation(async ({ input: { code, description }, ctx }) => {
       const codeType = identifyCodeType(code);
-      console.log({ code, description, codeType });
 
       if (!codeType) {
         throw new TRPCError({
@@ -45,10 +44,6 @@ export const appRouter = trpc.router({
     .input(z.number())
     .mutation(async ({ ctx, input: id }) => ctx.dataSource.deleteSnippet(id)),
 });
-
-export function trpcShared(): string {
-  return 'trpc-shared';
-}
 
 // export type definition of API
 export type AppRouter = typeof appRouter;

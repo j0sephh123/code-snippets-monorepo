@@ -1,0 +1,4 @@
+export const FORM_DESCRIPTION_MAX_LENGTH = 190;
+export const FORM_DESCRIPTION_MIN_LENGTH = 1;
+export const FORM_CODE_MAX_LENGTH = 4000;
+export const FORM_CODE_MIN_LENGTH = 1;

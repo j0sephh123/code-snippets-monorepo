@@ -2,7 +2,7 @@ import cors from 'cors';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import express from 'express';
 import * as path from 'path';
-import { appRouter, trpcShared } from '@joseph/trpc-shared';
+import { appRouter } from '@joseph/trpc-shared';
 import { DataSource } from '@joseph/prisma-shared';
 
 const port = process.env.PORT || 3000;
@@ -10,7 +10,6 @@ const app = express();
 
 app.use(cors());
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
-
 app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
@@ -22,7 +21,7 @@ app.use(
 );
 
 app.get('/api', (_req, res) => {
-  res.send({ message: 'Welcome to api!', fromTrpcShared: trpcShared() });
+  res.send({ message: 'Welcome to api!' });
 });
 
 const server = app.listen(port, () => {

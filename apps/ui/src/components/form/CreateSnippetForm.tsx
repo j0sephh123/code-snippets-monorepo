@@ -1,10 +1,16 @@
 import { useState } from 'react';
 import { Button, Textarea, Tooltip } from '@mantine/core';
+import {
+  FORM_DESCRIPTION_MAX_LENGTH,
+  FORM_CODE_MAX_LENGTH,
+  FORM_CODE_MIN_LENGTH,
+  FORM_DESCRIPTION_MIN_LENGTH,
+} from '@joseph/config';
 import { trpc } from '../../utils/tprc';
 import { toggleDialog } from '../../store/dialog/dialogState';
 
-// TODO experiment with refactoring
 // TODO extract placeholders, defaults, labels in a config file
+// TODO a more complete approach on error handling is necessary
 export default function CreateSnippetForm() {
   const trpcContext = trpc.useContext();
   const [codeInput, setCodeInput] = useState('');
@@ -19,7 +25,6 @@ export default function CreateSnippetForm() {
       toggleDialog('closed');
     },
     onError() {
-      // TODO a more complete approach is necessary here
       setIsCodeInputInvalid(true);
     },
   });
@@ -37,17 +42,17 @@ export default function CreateSnippetForm() {
     <>
       <Textarea
         rows={2}
-        maxLength={190}
+        maxLength={FORM_CODE_MAX_LENGTH}
         withAsterisk
         label="Description"
         placeholder="Description"
-        description="Between 1 and 190 characters"
+        description={`Between ${FORM_DESCRIPTION_MIN_LENGTH} and ${FORM_DESCRIPTION_MAX_LENGTH} characters`}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
       <Textarea
-        description="Between 1 and 4000 characters"
-        maxLength={4000}
+        description={`Between ${FORM_CODE_MIN_LENGTH} and ${FORM_CODE_MAX_LENGTH} characters`}
+        maxLength={FORM_DESCRIPTION_MAX_LENGTH}
         rows={4}
         withAsterisk
         label="Code"
@@ -58,7 +63,7 @@ export default function CreateSnippetForm() {
       />
       {isUserInputValid ? (
         <Button
-          disabled={codeInput.length === 0 || description.length === 0}
+          disabled={!isUserInputValid}
           variant="gradient"
           fullWidth
           onClick={handleCreateSnippet}
@@ -68,7 +73,7 @@ export default function CreateSnippetForm() {
       ) : (
         <Tooltip label="To be able to submit, fill all required fields">
           <Button
-            disabled={codeInput.length === 0 || description.length === 0}
+            disabled={!isUserInputValid}
             variant="gradient"
             fullWidth
             onClick={handleCreateSnippet}
