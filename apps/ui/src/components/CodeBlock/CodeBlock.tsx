@@ -11,6 +11,15 @@ type Props = Pick<Snippet, 'code' | 'language'> & {
   description?: ReactNode;
 };
 
+const codeBlockStyle: React.CSSProperties = {
+  borderBottom: '1px solid gray',
+  borderRight: '1px solid gray',
+  borderLeft: '1px solid gray',
+  borderTopLeftRadius: 0,
+  borderTopRightRadius: 0,
+  marginTop: 0,
+};
+
 // TODO wait before splitting into smaller chunks
 // TODO description prop should be ReactNode instead of prop drilling
 export default function CodeBlock({ language, code, description }: Props) {
@@ -52,14 +61,7 @@ export default function CodeBlock({ language, code, description }: Props) {
         language={mapPrismaEnumToLibraryLang(language)}
         style={atomDark}
         showLineNumbers
-        customStyle={{
-          borderBottom: '1px solid gray',
-          borderRight: '1px solid gray',
-          borderLeft: '1px solid gray',
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-          marginTop: 0,
-        }}
+        customStyle={codeBlockStyle}
       >
         {code}
       </Prism>
